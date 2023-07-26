@@ -1,16 +1,32 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as stepfunctions from 'aws-cdk-lib/aws-stepfunctions';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class StepfunctionsRestApiStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const startState = new stepfunctions.Pass(this, 'PassState', {
+      result: { value: 'Hello back to you' },
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'StepfunctionsRestApiQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const stateMachine = new stepfunctions.StateMachine(
+      this,
+      'CDKStateMachine',
+      {
+        definition: startState,
+        stateMachineType: stepfunctions.StateMachineType.EXPRESS,
+      }
+    );
+
+    const api = new apigateway.StepFunctionsRestApi(
+      this,
+      'CDKStepFunctionRestApi',
+      {
+        stateMachine: stateMachine,
+      }
+    );
   }
 }
