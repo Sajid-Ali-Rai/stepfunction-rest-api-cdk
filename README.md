@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project
+# Calling StepFunction from API Gateway using AWS CDK
 
-This is a blank project for CDK development with TypeScript.
+In this project we called a step funciton using API Gateway using AWS CDK with typescript language.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
@@ -15,3 +15,13 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 
 
+### Call Step funciton using api-gateway
+
+add your _api-id_ , _region_ before executing below 
+```bash
+curl -X POST\
+ 'https://<api-id>.execute-api.<region>.amazonaws.com/prod' \
+ -d '{"key":"Hello Step Functions"}' \
+ -H 'Content-Type: application/json'
+
+```
